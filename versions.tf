@@ -1,10 +1,17 @@
 terraform {
-  required_version = "~> 1.1"
+  required_version = "~> 1.2"
 
   required_providers {
     google = {
       source  = "hashicorp/google"
       version = "4.75.0"
+    }
+  }
+
+  cloud {
+    organization = "twdps"
+    workspaces {
+      tags = ["lab-gcp-iam-profiles"]
     }
   }
 }
