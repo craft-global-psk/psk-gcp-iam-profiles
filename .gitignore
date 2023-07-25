@@ -1,0 +1,9 @@
+.DS_Store
+local.env
+.terraform*
+*.auto.tfvars.json
+.private.key
+.public.key
+.terraform.lock.hcl
+Pipfile.lock
+*.tfstate*
