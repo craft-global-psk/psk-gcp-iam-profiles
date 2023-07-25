@@ -80,10 +80,6 @@ jobs:
       account:
         description: sandbox or production account configuration
         type: string
-      test-only:
-        description: run validation only without writing credentials
-        type: boolean
-        default: false
     steps:
       - checkout
       - setup_remote_docker
@@ -242,9 +238,7 @@ workflows:
           name: nightly sandbox gcp iam profiles validation
           context: << pipeline.parameters.context >>
           account: sandbox
-          test-only: true
       - validate configuration:
           name: nightly prod gcp iam profiles validation
           context: << pipeline.parameters.context >>
           account: prod
-          test-only: true

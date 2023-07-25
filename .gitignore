@@ -8,3 +8,4 @@ local.env
 .terraform.lock.hcl
 Pipfile.lock
 *.tfstate*
+gcp-creds.json

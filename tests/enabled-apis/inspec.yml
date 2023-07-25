@@ -1,10 +1,10 @@
-name: gcp_iam
-title: GCP IAM InSpec Profile
+name: gcp_enabled_apis
+title: GCP Enabled APIs InSpec Profile
 maintainer: Thoughtworks, Inc. EMPC
 copyright: Thoughtworks, Inc.
 copyright_email: info@thoughtworks.com
 license: MIT
-summary: An InSpec Compliance Profile For GCP IAM
+summary: An InSpec Compliance Profile For GCP Enabled APIs
 version: 1.0.0
 inspec_version: '>= 4'
 inputs:
