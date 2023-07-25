@@ -136,6 +136,8 @@ workflows:
           before-terraform:
             - set-environment:
                 account: sandbox
+          requires:
+            - apply workspace changes
           filters: *on-push-main
 
       - approve sandbox changes:
