@@ -1,0 +1,56 @@
+---
+version: 2.1
+
+orbs:
+  terraform: twdps/terraform@0.6.0
+  op: twdps/onepassword@1.0.0
+  do: twdps/pipeline-events@0.1.0
+
+# ==== global pipeline parameters
+
+parameters:
+  terraform-version:
+    description: terraform version for all jobs
+    type: string
+    default: "1.2.2"
+  context:
+    description: circleci context for all jobs
+    type: string
+    default: empc-lab
+  executor-image:
+    description: image to use for terraform runs
+    type: string
+    default: twdps/circleci-infra-gcp:alpine-0.1.0
+
+# ==== triggers
+on-push-main: &on-push-main
+  branches:
+    only: /main/
+  tags:
+    ignore: /.*/
+
+on-tag-main: &on-tag-main
+  branches:
+    ignore: /.*/
+  tags:
+    only: /.*/
+
+commands:
+  set-environment:
+    description: generate environment credentials and configuration from templates
+    parameters:
+      account:
+        description: account to be configured
+        type: string
+    steps:
+      - op/env:
+          env-file: op.<< parameters.account >>.env
+      - run:
+          name: set ~/.terraformrc
+          command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
+      - run:
+          name: set << parameters.account >> environment variables
+          command: op inject -i environments/<< parameters.account >>.auto.tfvars.json.tpl -o << parameters.account >>.auto.tfvars.json
+      - run:
+          name: set twdps.io gpg keys
+          command: bash scripts/import_gpg_keys.sh
