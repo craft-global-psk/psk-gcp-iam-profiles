@@ -5,9 +5,18 @@ resource "google_project_iam_custom_role" "EMPCIAMProfilesRole" {
   permissions = [
     "iam.roles.create",
     "iam.roles.delete",
+    "iam.roles.update",
     "iam.serviceAccounts.create",
     "iam.serviceAccounts.get",
+    "iam.serviceAccounts.list",
+    "iam.serviceAccounts.getIamPolicy",
     "iam.serviceAccounts.setIamPolicy",
+    "iam.serviceAccountKeys.create",
+    "iam.serviceAccountKeys.delete",
+    "iam.serviceAccountKeys.disable",
+    "iam.serviceAccountKeys.enable",
+    "iam.serviceAccountKeys.get",
+    "iam.serviceAccountKeys.list",
     "resourcemanager.projects.getIamPolicy",
     "resourcemanager.projects.setIamPolicy",
     "serviceusage.services.enable",
@@ -24,7 +33,6 @@ resource "google_project_iam_member" "iam_profiles" {
   for_each = toset([
     "projects/${var.gcp_project_id}/roles/EMPCIAMProfilesRole",
     "projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole",
-    "roles/iam.serviceAccountKeyAdmin",
   ])
   role = each.key
   project = var.gcp_project_id

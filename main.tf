@@ -8,7 +8,8 @@ resource "google_project_iam_custom_role" "EMPCTerraformRole" {
     "serviceusage.services.get",
     "serviceusage.services.list",
     "iam.roles.get",
-    "iam.serviceAccounts.getIamPolicy"]
+    "iam.serviceAccounts.getIamPolicy"
+  ]
 }
 
 resource "google_service_account" "sa" {
