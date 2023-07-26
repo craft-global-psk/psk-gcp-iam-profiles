@@ -191,6 +191,7 @@ workflows:
           name: test prod gcp iam profiles configuration
           context: << pipeline.parameters.context >>
           account: prod
+          rotate-key: true
           requires:
             - apply prod changes
           filters: *on-tag-main
