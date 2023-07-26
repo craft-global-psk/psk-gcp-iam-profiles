@@ -58,6 +58,10 @@ commands:
   set-workspaces-environment:
     description: |
       deploy terraform cloud workspaces for all environments
+    parameters:
+      account:
+        description: account to be configured
+        type: string
     steps:
       - op/env:
           env-file: ../op.<< parameters.account >>.env
@@ -103,7 +107,8 @@ workflows:
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
           before-terraform:
-            - set-workspaces-environment
+            - set-workspaces-environment:
+                account: sandbox
           filters: *on-push-main
       - approve workspace changes:
           type: approval
@@ -118,7 +123,8 @@ workflows:
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
           before-terraform:
-            - set-workspaces-environment
+            - set-workspaces-environment:
+                account: sandbox
           requires:
             - approve workspace changes
           filters: *on-push-main
