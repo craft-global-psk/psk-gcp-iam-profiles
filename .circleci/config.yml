@@ -59,23 +59,36 @@ commands:
           name: Get GCP cred file
           command: op document get gcp-<< parameters.account >>-creds.json -o gcp-creds.json
 jobs:
-  validate configuration:
+  validate configuration and rotate base key:
     description: |
       bats tests of the resulting infrastructure resources.
     docker:
       - image: << pipeline.parameters.executor-image >>
     environment:
-      TF_WORKSPACE: gcp-platform-<< parameters.account >>
+      TF_WORKSPACE: lab-gcp-iam-profiles-<< parameters.account >>
     shell: op run --env-file op.<< parameters.account >>.env -- /bin/sh -eo pipefail
     parameters:
       account:
         description: sandbox or production account configuration
         type: string
+      rotate-key:
+        description: Rotate the base key as part of this operation
+        type: boolean
+        default: false
     steps:
       - checkout
       - setup_remote_docker
       - set-environment:
           account: << parameters.account >>
+      - when:
+          condition:
+            and:
+             - equal: [ << parameters.rotate-key >>, true ]
+          steps:
+            - run:
+                name: Rotate terraform base key
+                command: |
+                  bash scripts/rotate_base_sa_key.sh << parameters.account >>
       - run:
           name: test << parameters.account >> configuration
           command: bash scripts/test_configuration.sh << parameters.account >>
@@ -124,7 +137,7 @@ workflows:
             - approve sandbox changes
           filters: *on-push-main
 
-      - validate configuration:
+      - validate configuration and rotate base key:
           name: test sandbox iam profiles configuration
           context: << pipeline.parameters.context >>
           account: sandbox
@@ -173,7 +186,7 @@ workflows:
             - approve prod changes
           filters: *on-tag-main
 
-      - validate configuration:
+      - validate configuration and rotate base key:
           name: test prod gcp iam profiles configuration
           context: << pipeline.parameters.context >>
           account: prod
@@ -199,11 +212,13 @@ workflows:
               only:
                 - main
     jobs:
-      - validate configuration:
+      - validate configuration and rotate base key:
           name: nightly sandbox gcp iam profiles validation
           context: << pipeline.parameters.context >>
           account: sandbox
-      - validate configuration:
+          rotate-key: true
+      - validate configuration and rotate base key:
           name: nightly prod gcp iam profiles validation
           context: << pipeline.parameters.context >>
           account: prod
+          rotate-key: true
