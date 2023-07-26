@@ -58,23 +58,6 @@ commands:
       - run:
           name: Get GCP cred file
           command: op document get gcp-<< parameters.account >>-creds.json -o gcp-creds.json
-  set-workspaces-environment:
-    description: |
-      deploy terraform cloud workspaces for all environments
-    parameters:
-      account:
-        description: account to be configured
-        type: string
-    steps:
-      - op/env:
-          env-file: op.<< parameters.account >>.env
-      - run:
-          name: set ~/.terraformrc
-          command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
-      - run:
-          name: set tf vars
-          command: op inject -i tf_workspaces/workspaces.auto.tfvars.tpl -o tf_workspaces/\*.auto.tfvars
-
 jobs:
   validate configuration:
     description: |
@@ -103,40 +86,12 @@ workflows:
   deploy profiles and roles to sandbox:
     jobs:
       - terraform/plan:
-          name: workspace setup plan
-          context: << pipeline.parameters.context >>
-          shell: unset TF_WORKSPACE
-          working-directory: tf_workspaces
-          workspace: workspaces
-          executor-image: << pipeline.parameters.executor-image >>
-          terraform-version: << pipeline.parameters.terraform-version >>
-          before-terraform:
-            - set-workspaces-environment:
-                account: sandbox
-          filters: *on-push-main
-      - approve workspace changes:
-          type: approval
-          requires:
-            - workspace setup plan
-          filters: *on-push-main
-      - terraform/apply:
-          name: apply workspace changes
-          context: << pipeline.parameters.context >>
-          shell: unset TF_WORKSPACE
-          working-directory: tf_workspaces
-          workspace: workspaces
-          executor-image: << pipeline.parameters.executor-image >>
-          terraform-version: << pipeline.parameters.terraform-version >>
-          before-terraform:
-            - set-workspaces-environment:
-                account: sandbox
-          requires:
-            - approve workspace changes
-          filters: *on-push-main
-      - terraform/plan:
           name: sandbox change plan
           context: << pipeline.parameters.context >>
-          shell: unset TF_WORKSPACE && terraform workspace select lab-gcp-iam-profiles-sandbox
+          shell: op run --env-file op.sandbox.env -- /bin/bash -eo pipefail
+          tfc-local-execution-mode: true
+          tfc-organization: twdps
+          tfc-workspace-name: lab-gcp-iam-profiles-sandbox
           workspace: sandbox
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
@@ -156,7 +111,7 @@ workflows:
       - terraform/apply:
           name: apply sandbox changes
           context: << pipeline.parameters.context >>
-          shell: unset TF_WORKSPACE && terraform workspace select lab-gcp-iam-profiles-sandbox
+          shell: op run --env-file op.sandbox.env -- /bin/bash -eo pipefail
           workspace: sandbox
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
@@ -185,7 +140,10 @@ workflows:
       - terraform/plan:
           name: prod change plan
           context: << pipeline.parameters.context >>
-          shell: unset TF_WORKSPACE && terraform workspace select lab-gcp-iam-profiles-prod
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
+          tfc-local-execution-mode: true
+          tfc-organization: twdps
+          tfc-workspace-name: lab-gcp-iam-profiles-prod
           workspace: prod
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
@@ -203,7 +161,7 @@ workflows:
       - terraform/apply:
           name: apply prod changes
           context: << pipeline.parameters.context >>
-          shell: unset TF_WORKSPACE && terraform workspace select lab-gcp-iam-profiles-prod
+          shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
           workspace: prod
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>

@@ -8,10 +8,11 @@ terraform {
     }
   }
 
-  cloud {
+  backend "remote" {
+    hostname     = "app.terraform.io"
     organization = "twdps"
     workspaces {
-      tags = ["lab-gcp-iam-profiles"]
+      prefix = "lab-gcp-iam-profiles-"
     }
   }
 }
