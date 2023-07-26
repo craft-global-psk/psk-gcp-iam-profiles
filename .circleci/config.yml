@@ -105,7 +105,7 @@ workflows:
       - terraform/plan:
           name: workspace setup plan
           context: << pipeline.parameters.context >>
-          shell: op run --env-file op.sandbox.env -- /bin/bash -eo pipefail
+          shell: op run --env-file ../op.sandbox.env -- /bin/bash -eo pipefail
           working-directory: tf_workspaces
           workspace: workspaces
           executor-image: << pipeline.parameters.executor-image >>
@@ -122,7 +122,7 @@ workflows:
       - terraform/apply:
           name: apply workspace changes
           context: << pipeline.parameters.context >>
-          shell: op run --env-file op.sandbox.env -- /bin/bash -eo pipefail
+          shell: op run --env-file ../op.sandbox.env -- /bin/bash -eo pipefail
           working-directory: tf_workspaces
           workspace: workspaces
           executor-image: << pipeline.parameters.executor-image >>
