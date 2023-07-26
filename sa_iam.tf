@@ -24,14 +24,15 @@ resource "google_project_iam_member" "iam_profiles" {
   for_each = toset([
     "projects/${var.gcp_project_id}/roles/EMPCIAMProfilesRole",
     "projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole",
+    "roles/iam.serviceAccountKeyAdmin",
   ])
   role = each.key
   project = var.gcp_project_id
   member  = "serviceAccount:${google_service_account.iam_profiles.email}"
 
-  depends_on = [ 
+  depends_on = [
     google_project_iam_custom_role.EMPCIAMProfilesRole,
-    google_project_iam_custom_role.EMPCTerraformRole 
+    google_project_iam_custom_role.EMPCTerraformRole
   ]
 }
 
@@ -43,4 +44,3 @@ resource "google_service_account_iam_binding" "iam_profiles" {
     "serviceAccount:${google_service_account.sa.email}"
   ]
 }
-
