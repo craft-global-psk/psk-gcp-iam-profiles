@@ -55,6 +55,9 @@ commands:
       - run:
           name: set twdps.io gpg keys
           command: bash scripts/import_gpg_keys.sh
+      - run:
+          name: Get GCP cred file
+          command: op document get gcp-<< parameters.account >>-creds.json -o gcp-creds.json
   set-workspaces-environment:
     description: |
       deploy terraform cloud workspaces for all environments
@@ -71,6 +74,7 @@ commands:
       - run:
           name: set tf vars
           command: op inject -i tf_workspaces/workspaces.auto.tfvars.tpl -o tf_workspaces/\*.auto.tfvars
+
 jobs:
   validate configuration:
     description: |
