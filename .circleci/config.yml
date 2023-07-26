@@ -111,6 +111,7 @@ workflows:
           before-terraform:
             - set-environment:
                 account: sandbox
+                rotate-key: true
           filters: *on-push-main
 
       - approve sandbox changes:
