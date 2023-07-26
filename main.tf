@@ -3,18 +3,18 @@ resource "google_project_iam_custom_role" "EMPCTerraformRole" {
   title       = "EMPC Terraform Base Role"
   description = "Role used by terraform job executions"
   permissions = [
-    "resourcemanager.projects.get", 
-    "serviceusage.quotas.get", 
-    "serviceusage.services.get", 
-    "serviceusage.services.list", 
-    "iam.roles.get", 
+    "resourcemanager.projects.get",
+    "serviceusage.quotas.get",
+    "serviceusage.services.get",
+    "serviceusage.services.list",
+    "iam.roles.get",
     "iam.serviceAccounts.getIamPolicy"]
 }
 
 resource "google_service_account" "sa" {
-  account_id   = "empc-sandbox-service-account"
-  display_name = "EMPC Sandbox Service Account"
-  description  = "Service Account for Sandbox, can only assume other service account roles"
+  account_id   = "empc-base-service-account"
+  display_name = "EMPC Base Service Account"
+  description  = "Service Account that can only assume other service account roles"
 }
 
 resource "google_project_iam_member" "project" {
