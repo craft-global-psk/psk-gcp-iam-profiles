@@ -64,13 +64,13 @@ commands:
         type: string
     steps:
       - op/env:
-          env-file: ../op.<< parameters.account >>.env
+          env-file: op.<< parameters.account >>.env
       - run:
           name: set ~/.terraformrc
-          command: op inject -i ../tpl/terraformrc.tpl -o ~/.terraformrc
+          command: op inject -i tpl/terraformrc.tpl -o ~/.terraformrc
       - run:
           name: set tf vars
-          command: op inject -i workspaces.auto.tfvars.tpl -o \*.auto.tfvars
+          command: op inject -i tf_workspaces/workspaces.auto.tfvars.tpl -o tf_workspaces/\*.auto.tfvars
 jobs:
   validate configuration:
     description: |
@@ -101,7 +101,7 @@ workflows:
       - terraform/plan:
           name: workspace setup plan
           context: << pipeline.parameters.context >>
-          shell: op run --env-file op.env -- /bin/bash -eo pipefail
+          shell: op run --env-file ../op.sandbox.env -- /bin/bash -eo pipefail
           working-directory: tf_workspaces
           workspace: workspaces
           executor-image: << pipeline.parameters.executor-image >>
@@ -118,7 +118,8 @@ workflows:
       - terraform/apply:
           name: apply workspace changes
           context: << pipeline.parameters.context >>
-          shell: op run --env-file op.env -- /bin/bash -eo pipefail
+          shell: op run --env-file ../op.sandbox.env -- /bin/bash -eo pipefail
+          working-directory: tf_workspaces
           workspace: workspaces
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
