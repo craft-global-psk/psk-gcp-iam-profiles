@@ -60,7 +60,7 @@ commands:
       deploy terraform cloud workspaces for all environments
     steps:
       - op/env:
-          env-file: op.env
+          env-file: ../op.<< parameters.account >>.env
       - run:
           name: set ~/.terraformrc
           command: op inject -i ../tpl/terraformrc.tpl -o ~/.terraformrc
