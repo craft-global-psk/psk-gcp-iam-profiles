@@ -98,8 +98,6 @@ workflows:
           before-terraform:
             - set-environment:
                 account: sandbox
-          requires:
-            - apply workspace changes
           filters: *on-push-main
 
       - approve sandbox changes:
@@ -119,7 +117,6 @@ workflows:
             - set-environment:
                 account: sandbox
           after-terraform:
-            - do/circle-deploy
             - do/slack-webhook:
                 message: lab-gcp-iam-profiles sandbox deployment
                 webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
@@ -169,7 +166,6 @@ workflows:
             - set-environment:
                 account: prod
           after-terraform:
-            - do/circle-deploy
             - do/slack-webhook:
                 message: lab-gcp-iam-profiles prod release
                 webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
