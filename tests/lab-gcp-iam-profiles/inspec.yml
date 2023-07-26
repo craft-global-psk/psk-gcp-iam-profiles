@@ -1,0 +1,18 @@
+name: lab-gcp-iam-profiles
+title: GCP InSpec Profile
+maintainer: Thoughtworks EMPC
+copyright: 2023 Thoughtworks, Inc
+copyright_email: info@thoughtworks.com
+license: MIT
+summary: An InSpec Compliance Profile For lab-gcp-iam-profiles
+version: 0.1.0
+inspec_version: '>= 4'
+inputs:
+- name: gcp_project_id
+  required: true
+  description: 'The GCP project identifier.'
+depends:
+- name: inspec-gcp
+  url: https://github.com/inspec/inspec-gcp/archive/main.tar.gz
+supports:
+- platform: gcp

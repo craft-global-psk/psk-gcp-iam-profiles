@@ -16,4 +16,3 @@ describe google_project_iam_custom_role(project: gcp_project_id, name: 'EMPCVPCR
   it { should exist }
   its('stage') { should eq 'GA' }
 end
-

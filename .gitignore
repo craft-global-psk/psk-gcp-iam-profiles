@@ -9,3 +9,4 @@ local.env
 Pipfile.lock
 *.tfstate*
 gcp-creds.json
+tests/lab-gcp-iam-profiles/inspec.lock

@@ -26,4 +26,3 @@ describe google_project_service(project: gcp_project_id, name: 'compute.googleap
   it { should exist }
   its('state') { should eq 'ENABLED' }
 end
-
