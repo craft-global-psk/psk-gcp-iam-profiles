@@ -111,7 +111,6 @@ workflows:
           before-terraform:
             - set-environment:
                 account: sandbox
-                rotate-key: true
           filters: *on-push-main
 
       - approve sandbox changes:
@@ -142,6 +141,7 @@ workflows:
           name: test sandbox iam profiles configuration
           context: << pipeline.parameters.context >>
           account: sandbox
+          rotate-key: true
           requires:
             - apply sandbox changes
           filters: *on-push-main
