@@ -5,18 +5,30 @@ steps:
   secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
 
 - id: 'Set terraform.rc'
-  name: 1password/op:2.19.0
-  args: ['op', 'inject', '-i', 'tpl/terraformrc.tpl', '-o', '/workspace/terraformrc']
+  name: $_BUILDER_REGISTRY/op-env
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        op inject -i tpl/terraformrc.tpl -o /workspace/terraformrc
   secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
 
 - id: 'Set terraform vars'
-  name: 1password/op:2.19.0
-  args: ['op', 'inject', '-i', 'environments/gcp-platform-sandbox.auto.tfvars.json.tpl', '-o', '/workspace/vars.tfvars.json']
+  name: $_BUILDER_REGISTRY/op-env
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        op inject -i tenvironments/gcp-platform-sandbox.auto.tfvars.json.tpl -o '/workspace/vars.tfvars.json
   secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
 
 - id: 'get GCP cred file'
-  name: 1password/op:2.19.0
-  args: ['op', 'document', 'get', 'gcp-sandbox-creds.json', '-o', '/workspace/gcp-creds.json']
+  name: $_BUILDER_REGISTRY/op-env
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        op document get gcp-sandbox-creds.json -o /workspace/gcp-creds.json
   secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
 
 - id: 'Terraform Plan'
