@@ -2,6 +2,7 @@ steps:
 - id: 'Load Secrets'
   name: $_BUILDER_REGISTRY/op-env
   args: ['op.sandbox.env']
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
 
 - id: 'Set terraform.rc'
   name: 1password/op:2.19.0
