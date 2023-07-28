@@ -39,7 +39,7 @@ steps:
     - |
         source /workspace/secrets.env && \
         cp /workspace/terraformrc ~/.terraformrc && \
-        cp /workspace/gcpo-creds.json ~/gcp-creds.json && \
+        cp /workspace/gcp-creds.json ~/gcp-creds.json && \
         terraform init && \
         terraform plan --var-file=/workspace/vars.tfvars.json
   env: ['TF_WORKSPACE=sandbox']
