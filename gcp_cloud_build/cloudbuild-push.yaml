@@ -1,0 +1,39 @@
+steps:
+- id: 'Load Secrets'
+  name: $_BUILDER_REGISTRY/op-env
+  args: ['op.sandbox.env']
+
+- id: 'Set terraform.rc'
+  name: 1password/op:2.19.0
+  args: ['op', 'inject', '-i', 'tpl/terraformrc.tpl', '-o', '/workspace/terraformrc']
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'Set terraform vars'
+  name: 1password/op:2.19.0
+  args: ['op', 'inject', '-i', 'environments/gcp-platform-sandbox.auto.tfvars.json.tpl', '-o', '/workspace/vars.tfvars.json']
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'get GCP cred file'
+  name: 1password/op:2.19.0
+  args: ['op', 'document', 'get', 'gcp-sandbox-creds.json', '-o', '/workspace/gcp-creds.json']
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'Terraform Plan'
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        source /workspace/secrets.env && \
+        cp /workspace/terraformrc ~/.terraformrc && \
+        cp /workspace/gcpo-creds.json ~/gcp-creds.json && \
+        terraform init && \
+        terraform plan --var-file=/workspace/vars.tfvars.json
+  env: ['TF_WORKSPACE=sandbox']
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/OP_SERVICE_ACCOUNT_TOKEN/versions/latest
+    env: 'OP_SERVICE_ACCOUNT_TOKEN'
+substitutions:
+  _BUILDER_REGISTRY: 'us-east1-docker.pkg.dev/${PROJECT_ID}/psk-cloud-builders'
+tags: ['psk-gcp-accelerator']
