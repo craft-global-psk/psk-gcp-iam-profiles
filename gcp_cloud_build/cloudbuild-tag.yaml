@@ -1,0 +1,53 @@
+steps:
+- id: 'Load Secrets'
+  name: $_BUILDER_REGISTRY/op-env
+  args: ['op.prod.env']
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'Set terraform.rc'
+  name: $_BUILDER_REGISTRY/op-env
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        op inject -i tpl/terraformrc.tpl -o /workspace/terraformrc
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'Set terraform vars'
+  name: $_BUILDER_REGISTRY/op-env
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        op inject -i environments/gcp-platform-prod.auto.tfvars.json.tpl -o /workspace/vars.tfvars.json
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'get GCP cred file'
+  name: $_BUILDER_REGISTRY/op-env
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        op document get gcp-prod-creds.json -o /workspace/gcp-creds.json
+  secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
+
+- id: 'Terraform Plan'
+  name: 'hashicorp/terraform:1.5'
+  entrypoint: 'sh'
+  args:
+    - '-c'
+    - |
+        source /workspace/secrets.env && \
+        cp /workspace/terraformrc ~/.terraformrc && \
+        cp /workspace/gcp-creds.json ~/gcp-creds.json && \
+        terraform init && \
+        terraform plan --var-file=/workspace/vars.tfvars.json
+  env: ['TF_WORKSPACE=prod']
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/OP_SERVICE_ACCOUNT_TOKEN/versions/latest
+    env: 'OP_SERVICE_ACCOUNT_TOKEN'
+substitutions:
+  _BUILDER_REGISTRY: 'us-east1-docker.pkg.dev/${PROJECT_ID}/psk-cloud-builders'
+tags: ['psk-gcp-accelerator']
