@@ -19,7 +19,7 @@ steps:
   args:
     - '-c'
     - |
-        op inject -i tenvironments/gcp-platform-sandbox.auto.tfvars.json.tpl -o '/workspace/vars.tfvars.json
+        op inject -i environments/gcp-platform-sandbox.auto.tfvars.json.tpl -o /workspace/vars.tfvars.json
   secretEnv: ['OP_SERVICE_ACCOUNT_TOKEN']
 
 - id: 'get GCP cred file'
