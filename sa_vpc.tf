@@ -11,11 +11,11 @@ module "vpc-role" {
   role_id              = "EMPCVPCRole"
   title                = "EMPC VPC Role"
   description          = "Role used by terraform to manage VPCs and Subnets"
-  base_roles           = ["roles/compute.networkAdmin", "projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole"]
+  base_roles           = ["roles/compute.networkAdmin", "roles/compute.xpnAdmin", "projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole"]
   permissions          = []
   excluded_permissions = [
     "networksecurity.firewallEndpoints.create",
-    "networksecurity.firewallEndpoints.delete", 
+    "networksecurity.firewallEndpoints.delete",
     "networksecurity.firewallEndpoints.get",
     "networksecurity.firewallEndpoints.list",
     "networksecurity.firewallEndpoints.update",
@@ -35,4 +35,3 @@ resource "google_service_account_iam_binding" "vpc" {
     "serviceAccount:${google_service_account.sa.email}"
   ]
 }
-
