@@ -23,9 +23,9 @@ resource "google_project_iam_member" "project" {
     "roles/iam.serviceAccountCreator",
     "projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole",
   ])
-  role = each.key
+  role    = each.key
   project = var.gcp_project_id
   member  = "serviceAccount:${google_service_account.sa.email}"
 
-  depends_on = [ google_project_iam_custom_role.EMPCTerraformRole ]
+  depends_on = [google_project_iam_custom_role.EMPCTerraformRole]
 }

@@ -21,7 +21,7 @@ resource "google_project_iam_custom_role" "EMPCIAMProfilesRole" {
     "resourcemanager.projects.setIamPolicy",
     "serviceusage.services.enable",
     "serviceusage.services.disable",
-    ]
+  ]
 }
 
 resource "google_service_account" "iam_profiles" {
@@ -34,7 +34,7 @@ resource "google_project_iam_member" "iam_profiles" {
     "projects/${var.gcp_project_id}/roles/EMPCIAMProfilesRole",
     "projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole",
   ])
-  role = each.key
+  role    = each.key
   project = var.gcp_project_id
   member  = "serviceAccount:${google_service_account.iam_profiles.email}"
 
