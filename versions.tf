@@ -19,5 +19,5 @@ terraform {
 
 provider "google" {
   project                     = var.gcp_project_id
-  impersonate_service_account = "empc-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
+  impersonate_service_account = "gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
 }

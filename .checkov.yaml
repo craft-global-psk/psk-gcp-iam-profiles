@@ -1,0 +1,13 @@
+directory:
+  - .
+branch: main
+download-external-modules: true
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework:
+- all
+mask: []
+secrets-scan-file-type: []
+summary-position: top
+skip-check:
+  - CKV_CIRCLECIPIPELINES_2  # this check is apparently unable to recognize that I did pin the image tag

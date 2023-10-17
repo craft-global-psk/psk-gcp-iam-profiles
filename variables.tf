@@ -1,9 +1,10 @@
-variable "org_id" {
+variable "gcp_state_project_id" {
   type        = string
-  description = "The org identifier, format is `organizations/<org_id>` "
+  description = "The project ID to of the State Account"
+  default     = "lab-platform-state"
 }
 
 variable "gcp_project_id" {
   type        = string
-  description = "The project ID to host the network in"
+  description = "The project ID to provision IAM resources in"
 }

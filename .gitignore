@@ -1,6 +1,7 @@
 .DS_Store
 local.env
 .terraform*
+.external_modules
 *.auto.tfvars.json
 *.auto.tfvars
 .private.key
