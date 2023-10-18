@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/google"
       version = "4.75.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.5.1"
+    }
   }
 
   backend "remote" {
@@ -21,3 +25,5 @@ provider "google" {
   project                     = var.gcp_project_id
   impersonate_service_account = "gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
 }
+
+provider "random" {}
