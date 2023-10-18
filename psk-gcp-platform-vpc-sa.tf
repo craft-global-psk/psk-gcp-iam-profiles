@@ -36,5 +36,6 @@ resource "google_service_account_iam_binding" "vpc" {
 
   members = [
     "serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com"
+    //"group:psk-platform-team@thoughtworks.com"
   ]
 }

@@ -29,6 +29,7 @@ variable "workload_identity_pool_provider_id" {
 variable "circleci_org_id" {
   type        = string
   description = "The ID of the CircleCI organization that will be used to authenticate CI orchestration"
+  default     = ""
 }
 
 variable "create_folder" {
@@ -68,6 +69,7 @@ variable "projects" {
   }))
 
   description = "A list of projects tpo be created that will be used by the EP"
+  default     = {}
 
   validation {
     condition = alltrue([

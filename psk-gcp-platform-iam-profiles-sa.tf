@@ -12,7 +12,10 @@ module "iam-profiles-role" {
   role_id      = "pskGcpPlatformIamProfilesRole"
   title        = "PSK GCP Platform IAM Profiles Role"
   description  = "Role used by terraform to manage IAM"
-  base_roles   = ["projects/${var.gcp_project_id}/roles/EMPCTerraformBaseRole"]
+  base_roles = [
+    "projects/${var.gcp_project_id}/roles/pskGcpPlatformBaseRole",
+    "roles/serviceusage.serviceUsageAdmin"
+  ]
   permissions = [
     "iam.roles.create",
     "iam.roles.delete",
@@ -29,15 +32,14 @@ module "iam-profiles-role" {
     "iam.serviceAccountKeys.enable",
     "iam.serviceAccountKeys.get",
     "iam.serviceAccountKeys.list",
+    "resourcemanager.projects.get",
     "resourcemanager.projects.getIamPolicy",
     "resourcemanager.projects.setIamPolicy",
-    "serviceusage.services.enable",
-    "serviceusage.services.disable",
   ]
   excluded_permissions = []
   members              = ["serviceAccount:gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"]
 
-  depends_on = [google_service_account.iam_profiles]
+  depends_on = [google_service_account.iam_profiles, module.base-role]
 }
 
 resource "google_service_account_iam_binding" "iam_profiles" {
@@ -45,6 +47,8 @@ resource "google_service_account_iam_binding" "iam_profiles" {
   role               = "roles/iam.serviceAccountTokenCreator"
 
   members = [
-    "serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com"
+    "serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com",
+    "user:sean.alvarez@thoughtworks.com"
+    //"group:psk-platform-team@thoughtworks.com"
   ]
 }

@@ -4,5 +4,6 @@
   "provision_state_resources" : "true",
   "create_folder" : "false",
   "create_project_structure" : "false",
-  "circleci_org_id" : "{{ op://empc-lab/svc-circleci/organization-id }}"
+  "circleci_org_id" : "{{ op://empc-lab/svc-circleci/organization-id }}",
+  "workload_identity_pool_id" : "psk-ep-pool-1"
 }
