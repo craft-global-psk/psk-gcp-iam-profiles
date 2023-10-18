@@ -25,9 +25,9 @@ resource "google_project_service" "service_usage" {
   disable_on_destroy         = false
 }
 
-//resource "google_project_service" "compute" {
-//  project                    = var.gcp_project_id
-//  service                    = "compute.googleapis.com"
-//  disable_dependent_services = true
-//  disable_on_destroy = false
-//}
+resource "google_project_service" "compute" {
+  project                    = var.gcp_project_id
+  service                    = "compute.googleapis.com"
+  disable_dependent_services = true
+  disable_on_destroy         = false
+}
