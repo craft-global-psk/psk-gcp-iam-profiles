@@ -120,6 +120,9 @@ workflows:
             - set-environment:
                 account: sandbox
           after-terraform:
+            - run:
+                name: store workload identity information for state
+                command: bash scripts/store_gcp_identity_config.sh
             - do/slack-webhook:
                 message: lab-gcp-iam-profiles sandbox deployment
                 webhook-url: $LAB_EVENTS_CHANNEL_WEBHOOK
