@@ -17,6 +17,5 @@ module "base-role" {
   ]
   excluded_permissions = []
   members = ["serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com"
-    //,"group:psk-platform-team@thoughtworks.com"
   ]
 }

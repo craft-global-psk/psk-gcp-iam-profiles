@@ -47,10 +47,12 @@ resource "google_iam_workload_identity_pool_provider" "workload_identity_pool_pr
   workload_identity_pool_id          = google_iam_workload_identity_pool.workload_identity_pool[0].workload_identity_pool_id
   workload_identity_pool_provider_id = var.workload_identity_pool_provider_id
   project                            = local.state_project_id
+  attribute_condition                = "\"github.com/ThoughtWorks-DPS\" in attribute.vcs-origin"
   attribute_mapping = {
-    "google.subject"    = "assertion.sub"
-    "attribute.aud"     = "assertion.aud"
-    "attribute.project" = "assertion['oidc.circleci.com/project-id']"
+    "google.subject"       = "assertion.sub"
+    "attribute.aud"        = "assertion.aud"
+    "attribute.project"    = "assertion['oidc.circleci.com/project-id']"
+    "attribute.vcs-origin" = "assertion['oidc.circleci.com/vcs-origin']"
   }
   oidc {
     allowed_audiences = [var.circleci_org_id]
@@ -99,7 +101,6 @@ module "base-role-state" {
   members = [
     "serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com",
     "serviceAccount:gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
-    //,"group:psk-platform-team@thoughtworks.com"
   ]
 
   depends_on = [google_service_account.iam_profiles]
