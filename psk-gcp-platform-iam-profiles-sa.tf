@@ -24,6 +24,7 @@ module "iam-profiles-role" {
     "iam.serviceAccounts.create",
     "iam.serviceAccounts.get",
     "iam.serviceAccounts.list",
+    "iam.serviceAccounts.delete",
     "iam.serviceAccounts.getIamPolicy",
     "iam.serviceAccounts.setIamPolicy",
     "iam.serviceAccountKeys.create",
