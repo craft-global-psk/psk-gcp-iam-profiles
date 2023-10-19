@@ -16,7 +16,7 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "twdps"
     workspaces {
-      prefix = "lab-gcp-iam-profiles-"
+      prefix = "psk-gcp-platform-iam-profiles-"
     }
   }
 }
