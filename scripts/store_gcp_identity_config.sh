@@ -22,7 +22,7 @@ WIP_ID=$(terraform output workload_identity_configuration_id | sed 's/"//g')
 SERVICE_ACCOUNT_EMAIL=$(terraform output service_account_email | sed 's/"//g')
 
 # write the workload identity config values to the secret store
-op item edit "$ITEM_NAME" --account="twdps" --vault="empc-lab" "workload-identitty-pool-id[text]=$WIP_ID" "service-account-email[text]=$SERVICE_ACCOUNT_EMAIL"
+op item edit "$ITEM_NAME" --account="twdps" --vault="empc-lab" "workload-identity-pool-id[text]=$WIP_ID" "service-account-email[text]=$SERVICE_ACCOUNT_EMAIL"
 } >/dev/null
 
 echo "Values stored"
