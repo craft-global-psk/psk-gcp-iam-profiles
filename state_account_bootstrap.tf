@@ -100,7 +100,7 @@ module "base-role-state" {
   excluded_permissions = []
   members = [
     "serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com",
-    "serviceAccount:gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
+    "serviceAccount:psk-gcp-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
   ]
 
   depends_on = [google_service_account.iam_profiles]
@@ -144,7 +144,7 @@ module "state-iam-profiles-role" {
     "resourcemanager.projects.setIamPolicy"
   ]
   excluded_permissions = ["resourcemanager.projects.list"]
-  members              = ["serviceAccount:gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"]
+  members              = ["serviceAccount:psk-gcp-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"]
 
   depends_on = [google_service_account.iam_profiles, module.base-role-state]
 }

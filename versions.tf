@@ -16,14 +16,14 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "twdps"
     workspaces {
-      prefix = "psk-gcp-platform-iam-profiles-"
+      prefix = "psk-gcp-iam-profiles-"
     }
   }
 }
 
 provider "google" {
   project                     = var.gcp_project_id
-  impersonate_service_account = "gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
+  impersonate_service_account = "psk-gcp-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
 }
 
 provider "random" {}

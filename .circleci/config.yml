@@ -68,7 +68,7 @@ jobs:
     docker:
       - image: << pipeline.parameters.executor-image >>
     environment:
-      TF_WORKSPACE: psk-gcp-platform-iam-profiles-<< parameters.account >>
+      TF_WORKSPACE: psk-gcp-iam-profiles-<< parameters.account >>
     shell: op run --env-file op.<< parameters.account >>.env -- /bin/sh -eo pipefail
     parameters:
       account:
@@ -94,7 +94,7 @@ workflows:
           shell: op run --env-file op.sandbox.env -- /bin/bash -eo pipefail
           tfc-local-execution-mode: true
           tfc-organization: twdps
-          tfc-workspace-name: psk-gcp-platform-iam-profiles-sandbox
+          tfc-workspace-name: psk-gcp-iam-profiles-sandbox
           workspace: sandbox
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>
@@ -146,7 +146,7 @@ workflows:
           shell: op run --env-file op.prod.env -- /bin/bash -eo pipefail
           tfc-local-execution-mode: true
           tfc-organization: twdps
-          tfc-workspace-name: psk-gcp-platform-iam-profiles-prod
+          tfc-workspace-name: psk-gcp-iam-profiles-prod
           workspace: prod
           executor-image: << pipeline.parameters.executor-image >>
           terraform-version: << pipeline.parameters.terraform-version >>

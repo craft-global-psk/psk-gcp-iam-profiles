@@ -1,5 +1,5 @@
 resource "google_service_account" "iam_profiles" {
-  account_id   = "gcp-platform-iam-profiles-sa"
+  account_id   = "psk-gcp-iam-profiles-sa"
   display_name = "Service Account to manage IAM profiles"
 }
 
@@ -38,7 +38,7 @@ module "iam-profiles-role" {
     "resourcemanager.projects.setIamPolicy",
   ]
   excluded_permissions = []
-  members              = ["serviceAccount:gcp-platform-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"]
+  members              = ["serviceAccount:psk-gcp-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"]
 
   depends_on = [google_service_account.iam_profiles, module.base-role]
 }
