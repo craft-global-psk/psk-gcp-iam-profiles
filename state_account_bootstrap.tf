@@ -47,7 +47,7 @@ resource "google_iam_workload_identity_pool_provider" "workload_identity_pool_pr
   workload_identity_pool_id          = google_iam_workload_identity_pool.workload_identity_pool[0].workload_identity_pool_id
   workload_identity_pool_provider_id = var.workload_identity_pool_provider_id
   project                            = local.state_project_id
-  attribute_condition                = "\"github.com/ThoughtWorks-DPS\" in attribute.vcs_origin"
+  attribute_condition                = "assertion['oidc.circleci.com/vcs-origin'].startsWith(\"github.com/ThoughtWorks-DPS\")"
   attribute_mapping = {
     "google.subject"       = "assertion.sub"
     "attribute.aud"        = "assertion.aud"
