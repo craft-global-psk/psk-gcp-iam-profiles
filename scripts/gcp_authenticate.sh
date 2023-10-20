@@ -20,3 +20,6 @@ gcloud iam workload-identity-pools create-cred-config \
 gcloud auth login --brief --cred-file $GCP_CRED_FILE_PATH
 # Configure ADC
 echo "export GOOGLE_APPLICATION_CREDENTIALS='$GCP_CRED_FILE_PATH'" | tee -a "$BASH_ENV"
+
+# Verify authentication
+gcloud iam service-accounts get-iam-policy "${SERVICE_ACCOUNT_EMAIL}"

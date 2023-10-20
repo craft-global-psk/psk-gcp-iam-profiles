@@ -16,6 +16,5 @@ module "base-role" {
     "iam.serviceAccounts.getIamPolicy",
   ]
   excluded_permissions = []
-  members = ["serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com"
-  ]
+  members              = ["serviceAccount:psk-gcp-platform-base-sa@${var.gcp_state_project_id}.iam.gserviceaccount.com"]
 }
