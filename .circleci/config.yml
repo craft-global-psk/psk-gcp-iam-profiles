@@ -98,14 +98,12 @@ jobs:
       - setup_remote_docker
       - add_ssh_keys:
           fingerprints:
-            - "92:91:ce:e1:7e:45:69:d7:3e:80:d4:6f:78:dd:05:fe"
+            - "db:07:03:a9:8a:12:52:1b:ca:a8:8f:d7:2f:de:7a:76"
       - run:
           name: setup git config
           command: |
             git config user.email "twdpsio"
             git config user.name "CircleCI Job"
-            eval "$(ssh-agent -s)"
-            ssh-add ~/.ssh/id_rsa_9291cee17e4569d73e80d46f78dd05fe
       - run:
           name: update git tag
           command: bash scripts/tag_repo.sh << parameters.semver_update >>
