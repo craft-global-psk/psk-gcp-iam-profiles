@@ -82,6 +82,22 @@ jobs:
       - run:
           name: test << parameters.account >> configuration
           command: bash scripts/test_configuration.sh << parameters.account >>
+  update_git_tag:
+    description: |
+      update git tag on passing sandbox build
+    docker:
+      - image: << pipeline.parameters.executor-image >>
+    parameters:
+        semver_update:
+          description: |
+            semver update type for git tag on passing sandbox build
+          type: string
+          default: "minor"
+    steps:
+      - run:
+          name: update git tag
+          command: |
+            command: bash scripts/tag_repo.sh << parameters.semver_update >>
 
 workflows:
   version: 2
@@ -136,6 +152,19 @@ workflows:
           account: sandbox
           requires:
             - apply sandbox changes
+          filters: *on-push-main
+
+      - approve tag:
+          type: approval
+          requires:
+            - test sandbox iam profiles configuration
+          filters: *on-push-main
+
+      - update_git_tag:
+          name: tag sandbox iam profiles configuration
+          context: << pipeline.parameters.context >>
+          requires:
+            - approve tag
           filters: *on-push-main
 
   deploy roles to prod:
