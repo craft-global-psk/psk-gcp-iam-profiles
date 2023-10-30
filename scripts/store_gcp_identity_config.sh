@@ -5,7 +5,7 @@ echo "Store workload identity pool values ..."
 ITEM_NAME=psk-platform-gcp-workload-identity-config
 
 # Create the 1Password item if it doesn't exist
-if ! op item get $ITEM_NAME &>/dev/null ;
+if ! op item get $ITEM_NAME --account="twdps" --vault="empc-lab" &>/dev/null ;
 then
 cat <<EOF | op item create --vault empc-lab --account twdps -
 {
