@@ -86,7 +86,7 @@ jobs:
     description: |
       update git tag on passing sandbox build
     docker:
-      - image: << pipeline.parameters.executor-image >>
+      - image: cimg/base:2021.04
     parameters:
         semver_update:
           description: |
