@@ -86,7 +86,7 @@ jobs:
     description: |
       update git tag on passing sandbox build
     docker:
-      - image: << pipeline.parameters.executor-image >>
+      - image: cimg/base:2021.04
     parameters:
         semver_update:
           description: |
@@ -94,6 +94,14 @@ jobs:
           type: string
           default: "minor"
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "92:91:ce:e1:7e:45:69:d7:3e:80:d4:6f:78:dd:05:fe"
+      - run:
+          name: setup git config
+          command: |
+            git config user.email "twdpsio"
+            git config user.name "CircleCI Job"
       - run:
           name: update git tag
           command: |
