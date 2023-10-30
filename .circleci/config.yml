@@ -104,6 +104,8 @@ jobs:
           command: |
             git config user.email "twdpsio"
             git config user.name "CircleCI Job"
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa_9291cee17e4569d73e80d46f78dd05fe
       - run:
           name: update git tag
           command: bash scripts/tag_repo.sh << parameters.semver_update >>
