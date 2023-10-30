@@ -86,7 +86,7 @@ jobs:
     description: |
       update git tag on passing sandbox build
     docker:
-      - image: cimg/base:2021.04
+      - image: << pipeline.parameters.executor-image >>
     parameters:
         semver_update:
           description: |
@@ -106,8 +106,7 @@ jobs:
             git config user.name "CircleCI Job"
       - run:
           name: update git tag
-          command: |
-            command: bash scripts/tag_repo.sh << parameters.semver_update >>
+          command: bash scripts/tag_repo.sh << parameters.semver_update >>
 
 workflows:
   version: 2
