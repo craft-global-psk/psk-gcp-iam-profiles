@@ -23,3 +23,5 @@ NEW_VER="v${MAJOR}.${MINOR}.${PATCH}"
 git tag $NEW_VER
 
 echo "push git tag $NEW_VER"
+
+git push --tags
