@@ -6,7 +6,7 @@ resource "google_service_account" "iam_profiles" {
 module "iam-profiles-role" {
   source = "terraform-google-modules/iam/google//modules/custom_role_iam"
   #checkov:skip=CKV_TF_1
-  version      = "7.7.0"
+  version      = "8.1.0"
   target_level = "project"
   target_id    = var.gcp_project_id
   role_id      = "pskGcpPlatformIamProfilesRole"
@@ -14,7 +14,7 @@ module "iam-profiles-role" {
   description  = "Role used by terraform to manage IAM"
   base_roles = [
     "projects/${var.gcp_project_id}/roles/pskGcpPlatformBaseRole",
-    "roles/serviceusage.serviceUsageAdmin"
+    "roles/serviceusage.serviceUsageAdmin",
   ]
   permissions = [
     "iam.roles.create",
