@@ -25,7 +25,7 @@ resource "google_project" "ep_project" {
   folder_id       = can(each.value.folder_id) ? each.value.folder_id : null
   billing_account = can(each.value.billing_account) ? each.value.billing_account : null
 
-  skip_delete         = false
+  # skip_delete         = false
   auto_create_network = false
 
   depends_on = [google_folder.engineering_platform]

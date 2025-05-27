@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 OP_SECRET=psk-platform-gcp-workload-identity-config
-WIP_ID=$(op item get $OP_SECRET --vault empc-lab --fields label=workload-identity-pool-id)
-SERVICE_ACCOUNT_EMAIL=$(op item get $OP_SECRET --vault empc-lab --fields label=service-account-email)
+WIP_ID=$(op item get $OP_SECRET --vault craft-infa --fields label=workload-identity-pool-id)
+SERVICE_ACCOUNT_EMAIL=$(op item get $OP_SECRET --vault craft-infra --fields label=service-account-email)
 
 OIDC_TOKEN_PATH=$1
 GCP_CRED_FILE_PATH=$2

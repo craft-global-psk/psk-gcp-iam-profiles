@@ -1,6 +1,6 @@
 name: lab-gcp-iam-profiles
 title: GCP InSpec Profile
-maintainer: Thoughtworks EMPC
+maintainer: Thoughtworks Platform Labs
 copyright: 2023 Thoughtworks, Inc
 copyright_email: info@thoughtworks.com
 license: MIT

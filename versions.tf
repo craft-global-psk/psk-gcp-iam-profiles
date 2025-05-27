@@ -4,7 +4,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "6.29.0"
+      version = "6.36.1"
     }
     random = {
       source  = "hashicorp/random"
@@ -14,7 +14,7 @@ terraform {
 
   backend "remote" {
     hostname     = "app.terraform.io"
-    organization = "twdps"
+    organization = "craftplatform"
     workspaces {
       prefix = "psk-gcp-iam-profiles-"
     }
@@ -23,7 +23,7 @@ terraform {
 
 provider "google" {
   project                     = var.gcp_project_id
-  impersonate_service_account = "psk-gcp-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
+  # impersonate_service_account = "psk-gcp-iam-profiles-sa@${var.gcp_project_id}.iam.gserviceaccount.com"
 }
 
 provider "random" {}
