@@ -10,7 +10,7 @@
 
 Go [here](https://github.com/ThoughtWorks-DPS/psk-gcp-documentation/blob/master/doc/architecture.md) for the architectural overview of an GCP-based Engineering Platform.  
 
-This pipeline manages:   
+This pipeline manages:    
 
 **Product service accounts**  
 One base service account (machine user) is defined per environment-scoped project for use in the Engineering Platform teams GCP pipelines. Login credentials are generated for this account and stored in the secret store, and rotated on a regular basis.  The base service account is only granted permission to get and list other service accounts and IAM roles in the project it is scoped to along with what Google Cloud APIs it is allowed to access.  No other permissions are granted.
